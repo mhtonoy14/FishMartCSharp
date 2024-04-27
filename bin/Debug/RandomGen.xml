@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RandomGen</name>
+    </assembly>
+    <members>
+        <member name="M:RandomGen.Fluent.IDouble.WithNormalDistribution(System.Double,System.Double)">
+            <summary>
+            Creates Normal Distribution according to Box Muller
+            [Used impl according to http://stackoverflow.com/a/218600/440502]
+            </summary>
+        </member>
+        <member name="M:RandomGen.Fluent.IInternet.TopLevelDomains">
+            <summary>
+            Generates random top level domains
+            Based on http://www.iana.org/domains/root/db
+            </summary>
+        </member>
+        <member name="M:RandomGen.Fluent.IInternet.EmailAddresses">
+            <summary>
+            Generates random email addresses
+            </summary>
+        </member>
+        <member name="T:RandomGen.Fluent.INames">
+            <summary>
+            According to US Census Data
+            http://www.census.gov/genealogy/www/data/1990surnames/names_files.html
+            </summary>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(System.Collections.Generic.IReadOnlyCollection{``0},System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(System.Collections.Generic.IReadOnlyList{``0},System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(``0[],System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="weights">Optional weights affecting the likelihood of an item being chosen. Same length as items</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Items``1(``0[])">
+            <summary>
+            Returns a gen that chooses randomly with equal weight for each item.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Enum``1(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns a gen that chooses randomly from an Enum values
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="weights">Optional weights affecting the likelihood of a value being chosen. Same length as Enum values</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.ItemsNoPlacement``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Returns a list of randomly drawn elements without placements
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="take">The numbers of desired drawn elements</param>
+        </member>
+        <member name="M:RandomGen.Fluent.IRandom.Countries">
+            <summary>
+            Generates random country names
+            Based on System.Globalisation
+            </summary>
+        </member>
+        <member name="T:RandomGen.Fluent.IText">
+            <summary>
+            Based on 350,000 English words taken from
+            http://www.math.sjsu.edu/~foster/dictionary.txt
+            </summary>
+        </member>
+        <member name="M:RandomGen.Fluent.IText.Naughty">
+            <summary>
+            Based on the Big List of Naughty Strings taken from
+            https://github.com/minimaxir/big-list-of-naughty-strings
+            </summary>
+        </member>
+        <member name="M:RandomGen.TimeLink.Dates(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Returns random date gen
+            </summary>
+            <param name="min">if not supplied, DateTime.MinValue is used</param>
+            <param name="max">if not supplied, DateTime.MaxValue is used</param>
+        </member>
+        <member name="M:RandomGen.TimeLink.Dates(System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Returns random datetimeoffset gen
+            </summary>
+            <param name="min">if not supplied, DateTimeOffset.MinValue is used</param>
+            <param name="max">if not supplied, DateTimeOffset.MaxValue is used</param>
+        </member>
+        <member name="M:RandomGen.TimeLink.Spans(System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            Creates TimeSpan intervals between two optional ranges
+            </summary>
+            <param name="min">if null, TimeSpan.Zero</param>
+            <param name="max">if null, 1 year is used</param>
+        </member>
+    </members>
+</doc>
