@@ -18,7 +18,7 @@ namespace Test3
 {
     public partial class SignUp : Form
     {
-        private string connection_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Tonoy\source\repos\Test3\Project_DB\TestDB.mdf;Integrated Security=True;Connect Timeout=30";
+        private string connection_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Tonoy\source\repos\Test3\Test3\Project_DB\TestDB.mdf;Integrated Security=True;Connect Timeout=30";
         private Random random = new Random();
         string otp;
         string name;
