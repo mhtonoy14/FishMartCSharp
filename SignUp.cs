@@ -26,6 +26,7 @@ namespace Test3
         string phone;
         string password;
         string address;
+        string acctype;
         public SignUp()
         {
             InitializeComponent();
@@ -50,7 +51,11 @@ namespace Test3
             phone = phonetb.Text.ToString();
             password = passwordtb.Text.ToString();
             address = addresstb.Text.ToString();
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(address))
+            if(string.IsNullOrEmpty(acctype))
+            {
+                MessageBox.Show("Please Select a User Category.");
+            }
+            else if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(address))
             {
                 DialogResult dialogResult = MessageBox.Show("No empty fields allowed, \nPlease fill up all the fields", "Can't Register", MessageBoxButtons.OK);
             }
@@ -61,18 +66,39 @@ namespace Test3
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "select * from users where u_email = '" + email + "'";
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
+                SqlCommand cmd1 = new SqlCommand();
+                cmd1.Connection = conn;
+                if (acctype == "Buyer")
                 {
-                    MessageBox.Show("The email is already been used.\nEnter a different valid email");
+                    cmd.CommandText = "select * from users where u_email = '" + email + "'";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        MessageBox.Show("The email is already been used.\nEnter a different valid email");
+                    }
+                    else
+                    {
+                        reader.Close();
+                        groupBox1.Visible = true;
+                        otp = GenerateOTP();
+                        SendOtpByEmail(email, otp);
+                    }
                 }
                 else
                 {
-                    reader.Close();
-                    groupBox1.Visible = true;
-                    otp = GenerateOTP();
-                    SendOtpByEmail(email, otp);
+                    cmd1.CommandText = "select * from owner where o_email = '" + email + "'";
+                    SqlDataReader reader = cmd1.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        MessageBox.Show("The email is already been used.\nEnter a different valid email");
+                    }
+                    else
+                    {
+                        reader.Close();
+                        groupBox1.Visible = true;
+                        otp = GenerateOTP();
+                        SendOtpByEmail(email, otp);
+                    }
                 }
                 conn.Close();
             }
@@ -101,7 +127,7 @@ namespace Test3
             try
             {
                 smtpServer.Send(mail);
-                MessageBox.Show("OTP has been sent to your email. Please check your inbox and verify.");
+                MessageBox.Show("OTP has been sent to " + email + ". \nPlease check your email and enter the code.");
             }
             catch (Exception ex)
             {
@@ -124,8 +150,19 @@ namespace Test3
                 conn.Open();
                 SqlCommand cmd1 = new SqlCommand();
                 cmd1.Connection = conn;
-                cmd1.CommandText = "insert into users (u_name, u_phone, u_email, u_address, u_password) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "')";
-                cmd1.ExecuteNonQuery();
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.Connection = conn;
+                if (acctype == "Buyer")
+                {
+                    cmd1.CommandText = "insert into users (u_name, u_phone, u_email, u_address, u_password) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "')";
+                    cmd1.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd2.CommandText = "insert into owner (o_name, o_phone, o_email, o_address, o_password) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "')";
+                    cmd2.ExecuteNonQuery();
+                }
+                
                 conn.Close();
                 MessageBox.Show("Verification Completed!");
                 Form1 form1 = new Form1();
@@ -136,6 +173,16 @@ namespace Test3
             {
                 MessageBox.Show("OTP is incorrect.");
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            acctype = "Seller";
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            acctype = "Buyer";
         }
     }
 }

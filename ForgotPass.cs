@@ -23,7 +23,7 @@ namespace Test3
         string otp;
         string emailc;
         string pass;
-
+        string acctype;
         public ForgotPass()
         {
             InitializeComponent();
@@ -39,7 +39,11 @@ namespace Test3
             emailc = emailtb.Text.ToString();
             pass = passwordtb.Text.ToString();
             string rpass = rpasswordtb.Text.ToString();
-            if(string.IsNullOrEmpty(emailc) || string.IsNullOrEmpty(pass) || string.IsNullOrEmpty(rpass))
+            if(string.IsNullOrEmpty(acctype))
+            {
+                MessageBox.Show("Please Select a User Category.");
+            }
+            else if(string.IsNullOrEmpty(emailc) || string.IsNullOrEmpty(pass) || string.IsNullOrEmpty(rpass))
             {
                 MessageBox.Show("All fields must be filled!");
             }
@@ -51,18 +55,39 @@ namespace Test3
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "select * from users where u_email = '" + emailc + "'";
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
+                SqlCommand cmd1 = new SqlCommand();
+                cmd1.Connection = conn;
+                if (acctype == "Buyer")
                 {
-                    reader.Close();
-                    otp = GenerateOTP();
-                    SendOtpByEmail(emailc, otp);
-                    groupBox1.Visible = true;
+                    cmd.CommandText = "select * from users where u_email = '" + emailc + "'";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Close();
+                        otp = GenerateOTP();
+                        SendOtpByEmail(emailc, otp);
+                        groupBox1.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("This email address is invalid.\nEnter a valid Email Address.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("This email address is invalid.\nEnter a valid Email Address.");
+                    cmd1.CommandText = "select * from owner where o_email = '" + emailc + "'";
+                    SqlDataReader reader = cmd1.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Close();
+                        otp = GenerateOTP();
+                        SendOtpByEmail(emailc, otp);
+                        groupBox1.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("This email address is invalid.\nEnter a valid Email Address.");
+                    }
                 }
                 conn.Close();
             }
@@ -92,7 +117,7 @@ namespace Test3
             try
             {
                 smtpServer.Send(mail);
-                MessageBox.Show("OTP has been sent to your email. Please check your inbox and verify.");
+                MessageBox.Show("OTP has been sent to " + email + ".\nPlease check your email and enter the code.") ;
             }
             catch (Exception ex)
             {
@@ -109,8 +134,19 @@ namespace Test3
                 conn.Open();
                 SqlCommand cmd1 = new SqlCommand();
                 cmd1.Connection = conn;
-                cmd1.CommandText = "update users set u_password = '" + pass + "' where u_email = '" + emailc + "'";
-                cmd1.ExecuteNonQuery();
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.Connection = conn;
+                if (acctype == "Buyer")
+                {
+                    cmd1.CommandText = "update users set u_password = '" + pass + "' where u_email = '" + emailc + "'";
+                    cmd1.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd2.CommandText = "update owner set o_password = '" + pass + "' where o_email = '" + emailc + "'";
+                    cmd2.ExecuteNonQuery();
+                }
+                
                 conn.Close();
                 MessageBox.Show("Verification Completed!\nYour Password is changed.");
                 Form1 form = new Form1();
@@ -121,6 +157,16 @@ namespace Test3
             {
                 MessageBox.Show("Incorrect Verification Code!");
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            acctype = "Seller";
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            acctype = "Buyer";
         }
     }
 }
