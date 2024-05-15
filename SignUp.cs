@@ -154,12 +154,12 @@ namespace Test3
                 cmd2.Connection = conn;
                 if (acctype == "Buyer")
                 {
-                    cmd1.CommandText = "insert into users (u_name, u_phone, u_email, u_address, u_password) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "')";
+                    cmd1.CommandText = "insert into users (u_name, u_phone, u_email, u_address, u_password, u_wallet) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "', 20000)";
                     cmd1.ExecuteNonQuery();
                 }
                 else
                 {
-                    cmd2.CommandText = "insert into owner (o_name, o_phone, o_email, o_address, o_password) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "')";
+                    cmd2.CommandText = "insert into owner (o_name, o_phone, o_email, o_address, o_password, o_wallet) values ('" + name + "', '" + phone + "', '" + email + "', '" + address + "', '" + password + "', 100)";
                     cmd2.ExecuteNonQuery();
                 }
                 

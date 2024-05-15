@@ -108,5 +108,10 @@ namespace Test3
 
             label2.Text = productName + " Fish Available in Stock: " + quantity + " KG";
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
